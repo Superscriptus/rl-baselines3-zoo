@@ -3,6 +3,8 @@ from gym.envs.registration import register
 
 from rl_zoo3.wrappers import MaskVelocityWrapper
 
+import gym_superscript
+
 try:
     import pybullet_envs  # pytype: disable=import-error
 except ImportError:
