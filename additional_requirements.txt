@@ -1,4 +1,5 @@
 huggingface-hub
+confuse
 sb3-contrib
 optuna
 wandb
