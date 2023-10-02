@@ -13,32 +13,10 @@ atari:
   gradient_steps: 1
   exploration_fraction: 0.1
   exploration_final_eps: 0.01
-  optimize_memory_usage: True
+  # If True, you need to deactivate handle_timeout_termination
+  # in the replay_buffer_kwargs
+  optimize_memory_usage: False
 
-# To be tuned
-SSEnvMinimal-v0:
-#  n_envs: 4
-  n_timesteps: !!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.9
-#  n_steps: 1024
-#  gae_lambda: 0.95
-#  gamma: 0.9
-#  n_epochs: 10
-#  ent_coef: 0.0
-#  learning_rate: !!float 1e-3
-#  clip_range: 0.2
-#  use_sde: True
-#  sde_sample_freq: 4
-
-# To be tuned
-SSEnvMinimal-v1:
-#  n_envs: 4
-  n_timesteps: !!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.9
 # Almost Tuned
 CartPole-v1:
   n_timesteps: !!float 5e4

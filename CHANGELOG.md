@@ -1,11 +1,82 @@
-## Release 1.8.0a9 (WIP)
+## Release 2.2.0a4 (WIP)
+
+### Breaking Changes
+- Removed `gym` dependency, the package is still required for some pretrained agents.
+
+### New Features
+- Add `--eval-env-kwargs` to `train.py` (@Quentin18)
+
+### Bug fixes
+
+### Documentation
+
+### Other
+- Updated docker image, removed support for X server
+- Replaced deprecated `optuna.suggest_uniform(...)` by `optuna.suggest_float(..., low=..., high=...)`
+- Switched to ruff for sorting imports
+- Updated tests to use `shlex.split()`
+
+## Release 2.1.0 (2023-08-17)
+
+### Breaking Changes
+- Dropped python 3.7 support
+- SB3 now requires PyTorch 1.13+
+- Upgraded to SB3 >= 2.1.0
+- Upgraded to Huggingface-SB3 >= 2.3
+- Upgraded to Optuna >= 3.0
+- Upgraded to cloudpickle >= 2.2.1
+
+### New Features
+- Added python 3.11 support
+
+### Bug fixes
+
+### Documentation
+
+### Other
+
+
+## Release 2.0.0 (2023-06-22)
+
+**Gymnasium support**
+
+> **Warning**
+> Stable-Baselines3 (SB3) v2.0.0 will be the last one supporting python 3.7
+
+### Breaking Changes
+- Fixed bug in HistoryWrapper, now returns the correct obs space limits
+- Upgraded to SB3 >= 2.0.0
+- Upgraded to Huggingface-SB3 >= 2.2.5
+- Upgraded to Gym API 0.26+, RL Zoo3 doesn't work anymore with Gym 0.21
+
+### New Features
+- Added Gymnasium support
+- Gym 0.26+ patches to continue working with pybullet and TimeLimit wrapper
+
+### Bug fixes
+- Renamed `CarRacing-v1` to `CarRacing-v2` in hyperparameters
+- Huggingface push to hub now accepts a `--n-timesteps` argument to adjust the length of the video
+- Fixed `record_video` steps (before it was stepping in a closed env)
+
+## Release 1.8.0 (2023-04-07)
+
+**New Documentation, Multi-Env HerReplayBuffer**
+
+> **Warning**
+> Stable-Baselines3 (SB3) v1.8.0 will be the last one to use Gym as a backend.
+  Starting with v2.0.0, Gymnasium will be the default backend (though SB3 will have compatibility layers for Gym envs).
+  You can find a migration guide [here](https://gymnasium.farama.org/content/migration-guide/).
+  If you want to try the SB3 v2.0 alpha version, you can take a look at [PR #1327](https://github.com/DLR-RM/stable-baselines3/pull/1327).
 
 ### Breaking Changes
 - Upgraded to SB3 >= 1.8.0
+- Upgraded to new `HerReplayBuffer` implementation that supports multiple envs
+- Removed `TimeFeatureWrapper` for Panda and Fetch envs, as the new replay buffer should handle timeout.
 
 ### New Features
 - Tuned hyperparameters for RecurrentPPO on Swimmer
 - Documentation is now built using Sphinx and hosted on read the doc
+- Added hyperparameters pre-trained agents for PPO on 11 MiniGrid envs
 
 ### Bug fixes
 - Set ``highway-env`` version to 1.5 and ``setuptools to`` v65.5 for the CI
@@ -20,6 +91,7 @@
 - Removed Gitlab CI file
 - Replaced deprecated `optuna.suggest_loguniform(...)` by `optuna.suggest_float(..., log=True)`
 - Switched to `ruff` and `pyproject.toml`
+- Removed `online_sampling` and `max_episode_length` argument when using `HerReplayBuffer`
 
 ## Release 1.7.0 (2023-01-10)
 

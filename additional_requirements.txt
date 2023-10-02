@@ -1,0 +1,9 @@
+huggingface-hub
+sb3-contrib
+optuna
+wandb
+huggingface_sb3
+seaborn
+joblib
+python-interface
+pathos

@@ -1,3 +1,31 @@
+SSEnvMinimal-v0:
+  n_envs: 2
+  n_timesteps: !!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+
+SSEnvDynamicAllSkills-v0:
+  n_timesteps: !!float 2e8
+  policy: 'MlpPolicy'
+  normalize: true
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  n_envs: 240
+  gamma: 0.99
+  # later params tuned:
+  clip_range: 0.3
+  ent_coef: 0.00638673657451116
+  gae_lambda: 0.95
+  learning_rate: 3.0000850701559558e-05
+  max_grad_norm: 0.7
+  n_epochs: 3
+  n_steps: 4096
+  vf_coef: 0.024303903615870467
+  policy_kwargs: "dict(ortho_init=False,
+                             activation_fn=nn.Tanh,
+                             net_arch=dict(pi=[256, 256], vf=[256, 256])
+                             )"
+
 atari:
   env_wrapper:
     - stable_baselines3.common.atari_wrappers.AtariWrapper
@@ -12,996 +40,6 @@ atari:
   clip_range: lin_0.1
   vf_coef: 0.5
   ent_coef: 0.01
-
-# To be tuned
-SSEnvMinimal-v0:
-  n_envs: 2
-  n_timesteps: !!float 1e6
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.9
-#  n_steps: 1024
-#  gae_lambda: 0.95
-#  gamma: 0.9
-#  n_epochs: 10
-#  ent_coef: 0.0
-#  learning_rate: !!float 1e-3
-#  clip_range: 0.2
-#  use_sde: True
-#  sde_sample_freq: 4
-
-# To be tuned
-SSEnvMinimal-v1:
-#  n_envs: 4
-  n_timesteps: !!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.9
-
-# To be tuned
-SSEnvMinimal-v2:
-#  n_envs: 4
-  n_timesteps: !!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.9
-
-# To be tuned
-SSEnvMinimal-v3:
-#  n_envs: 4
-  n_timesteps: !!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.9
-
-# To be tuned
-SSEnvStaticWorkforce-v0:
-#  n_envs: 4
-  n_timesteps: !!float 1e7
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.9
-
-# To be tuned
-SSEnvStaticProject-v0:
-#  n_envs: 4
-  n_timesteps: !!float 2e8
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.999  # previously 0.9 and all other default...
-  batch_size: 256
-  clip_range: 0.1
-  ent_coef: 2.9384267275300487e-07
-  gae_lambda: 0.8
-  learning_rate: 0.00015623431873477425
-  max_grad_norm: 0.6
-  n_epochs: 50
-  n_steps: 2048
-  vf_coef: 0.3246685234507607
-
-## To be tuned
-#SSEnvStaticProjectNormalised-v0:
-##  n_envs: 4
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  #vec_env_wrapper: stable_baselines3.common.vec_env.SubprocVecEnv
-#  n_envs: 45
-#  gamma: 0.9
-
-## Best so far!!
-## Best of study: optuna_ppo_static_project_normalised_1 (but with 45 envs)
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  #vec_env_wrapper: stable_baselines3.common.vec_env.SubprocVecEnv
-#  n_envs: 48 #45
-#  gamma: 0.98
-#  # the following were returned by the study:
-#  batch_size: 4096
-#  n_steps: 4096
-#  learning_rate:  9.830788476536833e-05
-##  lr_schedule: linear
-#  ent_coef: 3.298219511432126e-08
-#  clip_range: 0.3
-#  n_epochs: 5
-#  gae_lambda: 0.92
-#  max_grad_norm: 5
-#  vf_coef: 0.9097807238556412
-##  net_arch: small
-##  activation_fn: tanh
-#  policy_kwargs: "dict(ortho_init=True,
-#                       activation_fn=nn.Tanh,
-#                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                       )"
-
-# Best of study: optuna_ppo_static_project_normalised_1 (but with 48 envs)
-# !Note:adjusted for hyperparameter tuning (see study for actual params).
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  #vec_env_wrapper: stable_baselines3.common.vec_env.SubprocVecEnv
-#  n_envs: 48 #45
-#  gamma: 0.98
-#  # the following were returned by the study:
-#  batch_size: 24576
-#  n_steps: 24576
-#  learning_rate:  9.830788476536833e-05
-##  lr_schedule: linear
-#  ent_coef: 3.298219511432126e-08
-#  clip_range: 0.3
-#  n_epochs: 2
-#  gae_lambda: 0.92
-#  max_grad_norm: 5
-#  vf_coef: 0.9097807238556412
-##  net_arch: small
-##  activation_fn: tanh
-#  policy_kwargs: "dict(ortho_init=True,
-#                       activation_fn=nn.Tanh,
-#                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                       )"
-
-## Best of study: optuna_ppo_static_project_normalised_2 (note ortho init was wrong for rung v0_15)
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  #vec_env_wrapper: stable_baselines3.common.vec_env.SubprocVecEnv
-#  n_envs: 48 #45
-#  gamma: 0.9
-#  # the following were returned by the study:
-#  batch_size: 256
-#  n_steps: 16
-#  learning_rate:  lin_5.96e-05 # 5.959391482132426e-05
-##  lr_schedule: linear
-#  ent_coef: 9.120708300932432e-07
-#  clip_range: 0.1
-#  n_epochs: 30
-#  gae_lambda: 0.92
-#  max_grad_norm: 2
-#  vf_coef: 0.23985310572650076
-##  net_arch: small
-##  activation_fn: tanh
-#  policy_kwargs: "dict(ortho_init=False,
-#                       activation_fn=nn.Tanh,
-#                       net_arch=[dict(pi=[64, 64], vf=[64, 64])]
-#                       )"
-
-## Best of study optuna_ppo_static_project_normalised_3 (value: 0.3141128)
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 48
-#  batch_size: 24576
-#  n_steps: 24576
-#  n_epochs: 2
-#  # the following were returned by the study:
-#  gamma: 0.98 # 0.9999
-#  learning_rate: 0.00045020427368153235
-#  #  lr_schedule: constant
-#  ent_coef: 1.2531127588158715e-06
-#  clip_range: 0.1
-#  gae_lambda: 0.8
-#  max_grad_norm: 2
-#  vf_coef: 0.7953232245368518
-#  #  net_arch: medium
-#  #  activation_fn: tanh
-#  policy_kwargs: "dict(ortho_init=False,
-#                       activation_fn=nn.Tanh,
-#                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                       )"
-
-# For running study optuna_ppo_static_project_normalised_4 (9/7/22)
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 48
-#  gamma: 0.99
-
-
-## Tuned by optuna_ppo_static_project_normalised_4 (value: 0.674 - but only 1 evaluation env)
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 3e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 48
-#  gamma: 0.99
-#  clip_range: 0.4
-#  ent_coef: 0.04253434619877129
-#  gae_lambda: 0.8
-#  learning_rate: lin_1.5510053771200792e-05
-##  lr_schedule: linear
-#  max_grad_norm: 5
-#  n_epochs: 2
-#  n_steps: 12288
-#  vf_coef: 0.3746711639234399
-#  policy_kwargs: "dict(ortho_init=True,
-#                         activation_fn=nn.Tanh,
-#                         net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                         )"
-
-## For running study optuna_ppo_static_project_normalised_5 (22/7/22)
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 48
-##  n_eval_envs: 48
-#  gamma: 0.99
-#  policy_kwargs: "dict(ortho_init=True,
-#                           activation_fn=nn.Tanh,
-#                           net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                           )"
-#  vf_coef: 0.3746711639234399
-
-### Tuned by optuna_ppo_static_project_normalised_5 (value: 0.632, 48 evaluation envs)
-### ALSO USED FOR RUNNING optuna_ppo_static_project_normalised_6
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 3e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 240 #48
-##  n_eval_envs: 48
-#  gamma: 0.99
-#  policy_kwargs: "dict(ortho_init=True,
-#                           activation_fn=nn.Tanh,
-#                           net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                           )"
-#  vf_coef: 0.3746711639234399
-#  n_epochs: 1
-##  lr_schedule: 'linear',
-#  clip_range: 0.4
-#  max_grad_norm: 0.3
-#  n_steps: 12288
-#  learning_rate: lin_1.2443210643747e-05
-#  ent_coef: 0.08970659451305867
-#  gae_lambda: 0.8
-
-### Tuned with optuna_ppo_static_project_normalised_6 (best params as of 31/08/22: value 0.52)
-## Converges on around 0.6 with more timesteps (depending on how tested)
-SSEnvStaticProjectNormalised-v0:
-  n_timesteps: !!float 3e8
-  policy: 'MlpPolicy'
-  normalize: true
-  env_wrapper: gym.wrappers.FlattenObservation
-  n_envs: 240 #48
-#  n_eval_envs: 48
-  gamma: 0.99
-  policy_kwargs: "dict(ortho_init=False,
-                           activation_fn=nn.Tanh,
-                           net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                           )"
-  n_steps: 4096
-  learning_rate: lin_7.52588995997683e-05
-  ent_coef: 1.5469149959266145e-06
-  gae_lambda: 0.92
-  vf_coef: 0.3673939660491751
-  n_epochs: 2
-  clip_range: 0.4
-  max_grad_norm: 0.8
-
-
-## For running study optuna_ppo_static_project_normalised_6 (22/8/22)
-# This experiment uses a streamlined ABM simulation(no tracking) and DummyVecEnv,
-#  with 240 envs 10 evaluation episodes as in the ABM-free experiments.
-#SSEnvStaticProjectNormalised-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 240
-##  n_eval_envs: 48
-#  gamma: 0.99
-#  policy_kwargs: "dict(ortho_init=True,
-#                           activation_fn=nn.Tanh,
-#                           net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                           )"
-#  vf_coef: 0.3746711639234399
-
-# Not tuned yet... using best from previous env for now
-#SSEnvStaticProjectNormalisedABMFree-v0:
-#  n_timesteps: !!float 5e7
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 240
-#  gamma: 0.99
-#  clip_range: 0.4
-#  ent_coef: 0.04253434619877129
-#  gae_lambda: 0.8
-#  learning_rate: lin_1.5510053771200792e-05
-##  lr_schedule: linear
-#  max_grad_norm: 5
-#  n_epochs: 2
-#  n_steps: 12288
-#  vf_coef: 0.3746711639234399
-#  policy_kwargs: "dict(ortho_init=True,
-#                         activation_fn=nn.Tanh,
-#                         net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                         )"
-
-# For running study optuna_ppo_static_project_normalised_abm_free_1 (29/7/22 + 09/08/22)
-#SSEnvStaticProjectNormalisedABMFree-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 240
-#  gamma: 0.99
-
-# Tuned: best results of optuna_ppo_static_project_normalised_abm_free_1 as of 11/08/2022
-# Note: this performs well, but is without zeros!
-SSEnvStaticProjectNormalisedABMFree-v0:
-  n_timesteps: !!float 2e8
-  policy: 'MlpPolicy'
-  normalize: true
-  env_wrapper: gym.wrappers.FlattenObservation
-  n_envs: 240
-  gamma: 0.99
-  n_steps: 4096
-  learning_rate: 7.794605581312867e-05
-  ent_coef: 0.03131062953132174
-  gae_lambda: 0.9
-  vf_coef: 0.7389207074047398
-#  ortho_init: True
-  n_epochs: 1
-#  lr_schedule: 'constant'
-  clip_range: 0.4
-  max_grad_norm: 0.5
-#  net_arch: 'medium'
-#  activation_fn: 'tanh'
-  policy_kwargs: "dict(ortho_init=True,
-                           activation_fn=nn.Tanh,
-                           net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                           )"
-
-#  n_timesteps: !!float 5e7
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 48
-#  gamma: 0.99
-#  policy_kwargs: "dict(ortho_init=True,
-#                           activation_fn=nn.Tanh,
-#                           net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                           )"
-#  vf_coef: 0.3746711639234399
-#  n_epochs: 1
-#  clip_range: 0.4
-#  max_grad_norm: 0.3
-#  n_steps: 12288
-#  learning_rate: lin_1.2443210643747e-05
-#  ent_coef: 0.08970659451305867
-#  gae_lambda: 0.8
-
-### For running study optuna_ppo_dynamic_hard_skills_1 (24/8/22)
-### later params tuned (best results as of 02/09/22, value 0.32 @30M)
-#SSEnvDynamicHardSkills-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 240
-#  gamma: 0.99
-#  # later params tuned:
-#  n_steps: 4096
-#  n_epochs: 1
-#  learning_rate: lin_0.0003489476615503089
-#  #lr_schedule: 'linear'
-#  ent_coef: 0.00013468685290250987
-#  clip_range: 0.3
-#  gae_lambda: 0.92
-#  max_grad_norm: 0.6
-#  vf_coef: 0.04577327729850844
-#  policy_kwargs: "dict(ortho_init=True,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[64, 64], vf=[64, 64])]
-#                             )"
-
-
-## later params tuned (best results as of 09/09/22, value 0.40 @30M)
-SSEnvDynamicHardSkills-v0:
-  n_timesteps: !!float 2e8
-  policy: 'MlpPolicy'
-  normalize: true
-  env_wrapper: gym.wrappers.FlattenObservation
-  n_envs: 240
-  gamma: 0.99
-  # later params tuned:
-  clip_range: 0.2
-  ent_coef: 6.00004907940406e-07
-  gae_lambda: 0.8
-  learning_rate: lin_0.0002374736356598168
-  max_grad_norm: 2
-  n_epochs: 3
-  n_steps: 12288
-  vf_coef: 0.5427118563833311
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-# To be tuned...
-#SSEnvDynamicAllSkills-v0:
-#  n_timesteps: !!float 2e8
-#  policy: 'MlpPolicy'
-#  normalize: true
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  n_envs: 240
-#  gamma: 0.99
-#  # later params tuned:
-#  clip_range: 0.2
-#  ent_coef: 6.00004907940406e-07
-#  gae_lambda: 0.8
-#  learning_rate: lin_0.0002374736356598168
-#  max_grad_norm: 2
-#  n_epochs: 3
-#  n_steps: 12288
-#  vf_coef: 0.5427118563833311
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-## Best params from optuna_ppo_dynamic_all_skills_1 as of 12/10/22 (~0.47 at 50M)
-SSEnvDynamicAllSkills-v0:
-  n_timesteps: !!float 2e8
-  policy: 'MlpPolicy'
-  normalize: true
-  env_wrapper: gym.wrappers.FlattenObservation
-  n_envs: 240
-  gamma: 0.99
-  # later params tuned:
-  clip_range: 0.3
-  ent_coef: 0.00638673657451116
-  gae_lambda: 0.95
-  learning_rate: 3.0000850701559558e-05
-  max_grad_norm: 0.7
-  n_epochs: 3
-  n_steps: 4096 
-  vf_coef: 0.024303903615870467
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-## To be tuned...
-#SSEnvOptimalBaseline-v0:
-#  n_envs: 2
-#  n_timesteps: !!float 1e6
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-
-# Tuned on 50 workers (single project of course), min_team_size=3: optuna_ppo_optimal_baseline_1
-## Best params as of 27/10/2022 (value~0.73):
-#SSEnvOptimalBaseline-v0:  # using w/v0 for compute_filtering_results.py
-##SSEnvOptimalBaseline-v1:
-#  n_envs: 2
-#  n_timesteps: !!float 5e5 #!!float 1e6
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  clip_range: 0.3
-#  ent_coef: 0.00013213411068448198
-#  gae_lambda: 1.0
-#  learning_rate: lin_0.000580257390563462
-#  max_grad_norm: 1
-#  n_epochs: 2
-#  n_steps: 1024
-#  vf_coef: 0.48954812342982024
-#  policy_kwargs: "dict(ortho_init=True,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-#SSEnvOptimalBaseline-v1:
-#  n_envs: 2
-#  n_timesteps: !!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  clip_range: 0.3
-#  ent_coef: 0.00013213411068448198
-#  gae_lambda: 1.0
-#  learning_rate: lin_0.000580257390563462
-#  max_grad_norm: 1
-#  n_epochs: 2
-#  n_steps: 1024
-#  vf_coef: 0.48954812342982024
-#  policy_kwargs: "dict(ortho_init=True,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-# New best params as of 08.30 27/10/22:
-SSEnvOptimalBaseline-v1:
-  n_envs: 2
-  n_timesteps: !!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.99
-  # later params tuned:
-  clip_range: 0.1
-  ent_coef: 0.004200197771055067
-  gae_lambda: 0.8
-  learning_rate: 0.00012136932300702405
-  max_grad_norm: 1
-  n_epochs: 3
-  n_steps: 512
-  vf_coef: 0.1858553697287614
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-#SSEnvOptimalBaseline-v0:  # using w/v0 for compute_filtering_results.py
-#  n_envs: 2
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  clip_range: 0.1
-#  ent_coef: 0.004200197771055067
-#  gae_lambda: 0.8
-#  learning_rate: 0.00012136932300702405
-#  max_grad_norm: 1
-#  n_epochs: 3
-#  n_steps: 512
-#  vf_coef: 0.1858553697287614
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-## Optimsied for 50 workers (new pron func, equal weights)
-# optuna_ppo_optimal_baseline_2 run 84 (value 0.648)
-SSEnvOptimalBaseline-v0:  # using w/v0 for compute_filtering_results.py
-  n_envs: 2
-  n_timesteps: !!float 1e6 #!!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.99
-  # later params tuned:
-  clip_range: 0.1
-  ent_coef: 1.2996608114752462e-07
-  gae_lambda: 0.98
-  learning_rate: 0.0002078272207398545
-  max_grad_norm: 1
-  n_epochs: 3
-  n_steps: 512
-  vf_coef: 0.5175998146875843
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-#SSEnvOptimalBaseline-v2:  # using w/v0 for compute_filtering_results.py
-#  n_envs: 2
-#  n_timesteps: !!float 5e5 #!!float 1e6
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  clip_range: 0.1
-#  ent_coef: 0.004200197771055067
-#  gae_lambda: 0.8
-#  learning_rate: 0.00012136932300702405
-#  max_grad_norm: 1
-#  n_epochs: 3
-#  n_steps: 512
-#  vf_coef: 0.1858553697287614
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-SSEnvOptimalBaseline-v2:  # using for compute_filtering_results.py 10 worker (same as v0 optimised above for 50 workers)
-  n_envs: 2
-  n_timesteps: !!float 1e6 #!!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.99
-  # later params tuned:
-  clip_range: 0.1
-  ent_coef: 1.2996608114752462e-07
-  gae_lambda: 0.98
-  learning_rate: 0.0002078272207398545
-  max_grad_norm: 1
-  n_epochs: 3
-  n_steps: 512
-  vf_coef: 0.5175998146875843
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-## Optimised for 50 workers in optuna_ppo_optimal_baseline_all_1 (copy_env_50_workers_1.pickle)
-## value ~0.739 (gives ~97% of max for copy_env_50_workers_2.pickle also).
-#SSEnvOptimalBaselineAll-v0:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 256
-#  learning_rate: lin_0.000218
-#  ent_coef: 3.737370e-08
-#  gae_lambda: 0.92
-#  vf_coef: 0.803442
-#  clip_range: 0.3
-#  max_grad_norm: 0.6
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#
-#SSEnvOptimalBaselineAll-v1:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 256
-#  learning_rate: lin_0.000218
-#  ent_coef: 3.737370e-08
-#  gae_lambda: 0.92
-#  vf_coef: 0.803442
-#  clip_range: 0.3
-#  max_grad_norm: 0.6
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#
-#SSEnvOptimalBaselineAll-v2:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 256
-#  learning_rate: lin_0.000218
-#  ent_coef: 3.737370e-08
-#  gae_lambda: 0.92
-#  vf_coef: 0.803442
-#  clip_range: 0.3
-#  max_grad_norm: 0.6
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#
-#SSEnvOptimalBaselineAll-v3:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 256
-#  learning_rate: lin_0.000218
-#  ent_coef: 3.737370e-08
-#  gae_lambda: 0.92
-#  vf_coef: 0.803442
-#  clip_range: 0.3
-#  max_grad_norm: 0.6
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#
-#SSEnvOptimalBaselineAll-v4:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 256
-#  learning_rate: lin_0.000218
-#  ent_coef: 3.737370e-08
-#  gae_lambda: 0.92
-#  vf_coef: 0.803442
-#  clip_range: 0.3
-#  max_grad_norm: 0.6
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-## Best params from optuna_ppo_optimal_baseline_all_8: chosen from UMAP plot in selecting_hyperparmaters_rla1.ipynb
-## because these lie in the center of the embedding space...
-## Testing across all four projects...
-#SSEnvOptimalBaselineAll-v0:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 3
-#  n_steps: 128
-#  learning_rate: 0.000125
-#  ent_coef: 0.000301
-#  gae_lambda: 0.99
-#  vf_coef: 0.680358
-#  clip_range: 0.1
-#  max_grad_norm: 1.0
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#SSEnvOptimalBaselineAll-v1:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 3
-#  n_steps: 128
-#  learning_rate: 0.000125
-#  ent_coef: 0.000301
-#  gae_lambda: 0.99
-#  vf_coef: 0.680358
-#  clip_range: 0.1
-#  max_grad_norm: 1.0
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#SSEnvOptimalBaselineAll-v2:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 2e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 3
-#  n_steps: 128
-#  learning_rate: 0.000125
-#  ent_coef: 0.000301
-#  gae_lambda: 0.99
-#  vf_coef: 0.680358
-#  clip_range: 0.1
-#  max_grad_norm: 1.0
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#SSEnvOptimalBaselineAll-v3:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 3
-#  n_steps: 128
-#  learning_rate: 0.000125
-#  ent_coef: 0.000301
-#  gae_lambda: 0.99
-#  vf_coef: 0.680358
-#  clip_range: 0.1
-#  max_grad_norm: 1.0
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-## Best params from optuna_ppo_optimal_baseline_all_9_fixed: chosen from UMAP plot in selecting_hyperparmaters_rla1.ipynb
-## because the best params for this study are near the cluster of other best params...
-## Testing across all four projects...
-#SSEnvOptimalBaselineAll-v0:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 128
-#  learning_rate: lin_0.000404
-#  ent_coef: 3.841559e-06
-#  gae_lambda: 1.00
-#  vf_coef: 0.671086
-#  clip_range: 0.4
-#  max_grad_norm: 0.8
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#SSEnvOptimalBaselineAll-v1:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 128
-#  learning_rate: lin_0.000404
-#  ent_coef: 3.841559e-06
-#  gae_lambda: 1.00
-#  vf_coef: 0.671086
-#  clip_range: 0.4
-#  max_grad_norm: 0.8
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#
-#SSEnvOptimalBaselineAll-v2:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 128
-#  learning_rate: lin_0.000404
-#  ent_coef: 3.841559e-06
-#  gae_lambda: 1.00
-#  vf_coef: 0.671086
-#  clip_range: 0.4
-#  max_grad_norm: 0.8
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-#
-#SSEnvOptimalBaselineAll-v3:
-#  n_envs: 10 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_epochs: 2
-#  n_steps: 128
-#  learning_rate: lin_0.000404
-#  ent_coef: 3.841559e-06
-#  gae_lambda: 1.00
-#  vf_coef: 0.671086
-#  clip_range: 0.4
-#  max_grad_norm: 0.8
-#  policy_kwargs: "dict(ortho_init=False,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
-# Trying second best params from optuna_ppo_optimal_baseline_all_10:
-#  chosen from UMAP plot in selecting_hyperparmaters_rla1.ipynb
-# because the second best params for this study are central to the cluster of other best params...(although slightly
-# further from optuna_ppo_optimal_baseline_all_9_fixed (meaning we expect slightly worse performance on copy_env_50_workers_3.pickle
-# Testing across all four projects...
-SSEnvOptimalBaselineAll-v0:
-  n_envs: 15 # 10 # 2 (increasing to try to reduce noise)
-  n_timesteps: !!float 1e6 #!!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.99
-  # later params tuned:
-  n_epochs: 3
-  n_steps: 256
-  learning_rate: 0.000134
-  ent_coef: 7.853299e-06
-  gae_lambda: 0.98
-  vf_coef: 0.863681
-  clip_range: 0.3
-  max_grad_norm: 0.8
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-SSEnvOptimalBaselineAll-v1:
-  n_envs: 25 # 10 # 6 # 5 # 4 # 3 # 1 # 2 # 10 (increasing to try to reduce noise)
-  n_timesteps: !!float 1e6 #!!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.99
-  # later params tuned:
-  n_epochs: 3
-  n_steps: 256
-  learning_rate: 0.000134
-  ent_coef: 7.853299e-06
-  gae_lambda: 0.98
-  vf_coef: 0.863681
-  clip_range: 0.3
-  max_grad_norm: 0.8
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-SSEnvOptimalBaselineAll-v2:
-  n_envs: 50 # 10 # 1 # 2 (increasing to try to reduce noise)
-  n_timesteps: !!float 1e6 #!!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.99
-  # later params tuned:
-  n_epochs: 3
-  n_steps: 256
-  learning_rate: 0.000134
-  ent_coef: 7.853299e-06
-  gae_lambda: 0.98
-  vf_coef: 0.863681
-  clip_range: 0.3
-  max_grad_norm: 0.8
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-SSEnvOptimalBaselineAll-v3:
-  n_envs: 100 # 10 # 2 (increasing to try to reduce noise)
-  n_timesteps: !!float 1e6 #!!float 5e5
-  policy: 'MlpPolicy'
-  env_wrapper: gym.wrappers.FlattenObservation
-  gamma: 0.99
-  # later params tuned:
-  n_epochs: 3
-  n_steps: 256
-  learning_rate: 0.000134
-  ent_coef: 7.853299e-06
-  gae_lambda: 0.98
-  vf_coef: 0.863681
-  clip_range: 0.3
-  max_grad_norm: 0.8
-  policy_kwargs: "dict(ortho_init=False,
-                             activation_fn=nn.Tanh,
-                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-                             )"
-
-## Trialing best params from optuna_ppo_optimal_baseline_all_13 (val ~0.53)
-# Why training taking so long now with single env? (1 hour+ during hypertuning).
-#SSEnvOptimalBaselineAll-v1:
-#  n_envs: 1 # 2 (increasing to try to reduce noise)
-#  n_timesteps: !!float 1e6 #!!float 5e5
-#  policy: 'MlpPolicy'
-#  env_wrapper: gym.wrappers.FlattenObservation
-#  gamma: 0.99
-#  # later params tuned:
-#  n_steps: 2048
-#  n_epochs: 2
-#  clip_range: 0.3
-#  max_grad_norm: 0.7
-#  learning_rate: 0.0002690844681409705
-#  ent_coef: 0.006998886776630876
-#  gae_lambda: 1.0
-#  vf_coef: 0.6188524764817325
-#  policy_kwargs: "dict(ortho_init=True,
-#                             activation_fn=nn.Tanh,
-#                             net_arch=[dict(pi=[256, 256], vf=[256, 256])]
-#                             )"
-
 
 # Tuned
 Pendulum-v1:
@@ -1144,7 +182,7 @@ HalfCheetahBulletEnv-v0: &pybullet-defaults
   policy_kwargs: "dict(log_std_init=-2,
                        ortho_init=False,
                        activation_fn=nn.ReLU,
-                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                       net_arch=dict(pi=[256, 256], vf=[256, 256])
                        )"
 
 # Tuned
@@ -1154,7 +192,7 @@ AntBulletEnv-v0:
   policy_kwargs: "dict(log_std_init=-1,
                        ortho_init=False,
                        activation_fn=nn.ReLU,
-                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                       net_arch=dict(pi=[256, 256], vf=[256, 256])
                        )"
 
 # Tuned
@@ -1165,7 +203,7 @@ Walker2DBulletEnv-v0:
   policy_kwargs: "dict(log_std_init=-2,
                        ortho_init=False,
                        activation_fn=nn.ReLU,
-                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                       net_arch=dict(pi=[256, 256], vf=[256, 256])
                        )"
 
 # Tuned
@@ -1176,7 +214,7 @@ HopperBulletEnv-v0:
   policy_kwargs: "dict(log_std_init=-2,
                        ortho_init=False,
                        activation_fn=nn.ReLU,
-                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                       net_arch=dict(pi=[256, 256], vf=[256, 256])
                        )"
 
 # Tuned
@@ -1200,7 +238,7 @@ ReacherBulletEnv-v0:
   policy_kwargs: "dict(log_std_init=-2.7,
                        ortho_init=False,
                        activation_fn=nn.ReLU,
-                       net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                       net_arch=dict(pi=[256, 256], vf=[256, 256])
                        )"
 
 MinitaurBulletEnv-v0:
@@ -1274,15 +312,14 @@ InvertedPendulumSwingupBulletEnv-v0:
   learning_rate: 2.5e-4
   clip_range: 0.2
 
+
 # Following https://github.com/lcswillems/rl-starter-files
-# requires --gym-packages gym_minigrid
-MiniGrid-DoorKey-5x5-v0:
-  # Dict Observations are now supported
-  # env_wrapper: gym_minigrid.wrappers.FlatObsWrapper
+MiniGrid-Empty-Random-5x5-v0: &minigrid-defaults
+  env_wrapper: minigrid.wrappers.FlatObsWrapper # See GH/1320#issuecomment-1421108191
   normalize: true
   n_envs: 8 # number of environment copies running in parallel
   n_timesteps: !!float 1e5
-  policy: MlpPolicy
+  policy: 'MlpPolicy'
   n_steps: 128 # batch size is n_steps * n_env
   batch_size: 64 # Number of training minibatches per update
   gae_lambda: 0.95 #  Factor for trade-off of bias vs variance for Generalized Advantage Estimator
@@ -1292,28 +329,59 @@ MiniGrid-DoorKey-5x5-v0:
   learning_rate: 2.5e-4 # The learning rate, it can be a function
   clip_range: 0.2 # Clipping parameter, it can be a function
 
-# requires --gym-packages gym_minigrid
 MiniGrid-FourRooms-v0:
-  normalize: true
-  n_envs: 8
-  n_timesteps: !!float 4e6
-  policy: 'MlpPolicy'
+  <<: *minigrid-defaults
+  n_timesteps: !!float 5e6
   n_steps: 512
-  batch_size: 64
-  gae_lambda: 0.95
-  gamma: 0.99
-  n_epochs: 10
-  ent_coef: 0.0
-  learning_rate: 2.5e-4
-  clip_range: 0.2
 
-CarRacing-v0:
+MiniGrid-DoorKey-5x5-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e5
+
+MiniGrid-MultiRoom-N4-S5-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e7 # Unsolved
+
+MiniGrid-Fetch-5x5-N2-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 5e6
+
+MiniGrid-GoToDoor-5x5-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 5e6
+
+MiniGrid-PutNear-6x6-N2-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e7
+
+MiniGrid-RedBlueDoors-6x6-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e6
+  n_steps: 512
+
+MiniGrid-LockedRoom-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e7 # Unsolved
+
+MiniGrid-KeyCorridorS3R1-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 5e5
+
+MiniGrid-Unlock-v0:
+  <<: *minigrid-defaults
+
+MiniGrid-ObstructedMaze-2Dlh-v0:
+  <<: *minigrid-defaults
+  n_timesteps: !!float 1e7 # Unsolved
+
+
+CarRacing-v2:
   env_wrapper:
-    - utils.wrappers.FrameSkip:
+    - rl_zoo3.wrappers.FrameSkip:
         skip: 2
-    - gym.wrappers.resize_observation.ResizeObservation:
+    - gymnasium.wrappers.resize_observation.ResizeObservation:
         shape: 64
-    - gym.wrappers.gray_scale_observation.GrayScaleObservation:
+    - gymnasium.wrappers.gray_scale_observation.GrayScaleObservation:
         keep_dim: true
   frame_stack: 2
   normalize: "{'norm_obs': False, 'norm_reward': True}"
@@ -1335,7 +403,7 @@ CarRacing-v0:
   policy_kwargs: "dict(log_std_init=-2,
                        ortho_init=False,
                        activation_fn=nn.GELU,
-                       net_arch=[dict(pi=[256], vf=[256])],
+                       net_arch=dict(pi=[256], vf=[256]),
                        )"
 
 
@@ -1360,9 +428,15 @@ Ant-v3: &mujoco-defaults
 #   <<: *mujoco-defaults
 #   n_timesteps: !!float 2e6
 #
+# tuned
 Swimmer-v3:
   <<: *mujoco-defaults
   gamma: 0.9999
+  n_envs: 4
+  n_steps: 1024
+  batch_size: 256
+  learning_rate: !!float 6e-4
+  gae_lambda: 0.98
 
 # Tuned
 # 10 mujoco envs
@@ -1386,7 +460,7 @@ HalfCheetah-v3:
                     log_std_init=-2,
                     ortho_init=False,
                     activation_fn=nn.ReLU,
-                    net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                    net_arch=dict(pi=[256, 256], vf=[256, 256])
                   )"
 
 # Ant-v3:
@@ -1424,10 +498,10 @@ Hopper-v3:
                     log_std_init=-2,
                     ortho_init=False,
                     activation_fn=nn.ReLU,
-                    net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                    net_arch=dict(pi=[256, 256], vf=[256, 256])
                   )"
 
-HumanoidStandup-v3:
+HumanoidStandup-v2:
   normalize: true
   n_envs: 1
   policy: 'MlpPolicy'
@@ -1446,7 +520,7 @@ HumanoidStandup-v3:
                     log_std_init=-2,
                     ortho_init=False,
                     activation_fn=nn.ReLU,
-                    net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                    net_arch=dict(pi=[256, 256], vf=[256, 256])
                   )"
 
 Humanoid-v3:
@@ -1468,10 +542,10 @@ Humanoid-v3:
                     log_std_init=-2,
                     ortho_init=False,
                     activation_fn=nn.ReLU,
-                    net_arch=[dict(pi=[256, 256], vf=[256, 256])]
+                    net_arch=dict(pi=[256, 256], vf=[256, 256])
                   )"
 
-InvertedDoublePendulum-v3:
+InvertedDoublePendulum-v2:
   normalize: true
   n_envs: 1
   policy: 'MlpPolicy'
@@ -1487,7 +561,7 @@ InvertedDoublePendulum-v3:
   max_grad_norm: 0.5
   vf_coef: 0.695929
 
-InvertedPendulum-v3:
+InvertedPendulum-v2:
   normalize: true
   n_envs: 1
   policy: 'MlpPolicy'
