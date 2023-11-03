@@ -1,15 +1,43 @@
+#SSEnvAllocateHardSkills-v0:
+#  env_wrapper: gymnasium.wrappers.FlattenObservation
+#  n_envs: 8
+#  n_steps: 128
+#  n_epochs: 4
+#  batch_size: 256
+#  n_timesteps: !!float 1e7
+#  learning_rate: lin_2.5e-4
+#  clip_range: lin_0.1
+#  vf_coef: 0.5
+#  ent_coef: 0.01
+#  policy: 'MlpPolicy'
 SSEnvAllocateHardSkills-v0:
-  env_wrapper: gymnasium.wrappers.FlattenObservation
-  n_envs: 8
-  n_steps: 128
-  n_epochs: 4
-  batch_size: 256
-  n_timesteps: !!float 1e7
-  learning_rate: lin_2.5e-4
-  clip_range: lin_0.1
-  vf_coef: 0.5
-  ent_coef: 0.01
 
+  n_envs: 2
+  n_timesteps: !!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+
+#SSEnvAllocateHardSkills-v0:
+#  n_timesteps: !!float 1e8
+#  policy: 'MlpPolicy'
+#  normalize: true
+#  env_wrapper: gymnasium.wrappers.FlattenObservation
+#  n_envs: 240 #48
+##  n_eval_envs: 48
+#  gamma: 0.99
+#  policy_kwargs: "dict(ortho_init=False,
+#                           activation_fn=nn.Tanh,
+#                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+#                           )"
+#  n_steps: 4096
+#  learning_rate: lin_7.52588995997683e-05
+#  ent_coef: 1.5469149959266145e-06
+#  gae_lambda: 0.92
+#  vf_coef: 0.3673939660491751
+#  n_epochs: 2
+#  clip_range: 0.4
+#  max_grad_norm: 0.8
 
 SSEnvMinimal-v0:
   n_envs: 2
