@@ -16,7 +16,7 @@ SSEnvAllocateHardSkills-v0:
   n_timesteps: !!float 1e6
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
-  gamma: 0.9
+  gamma: 1.0
 
 #SSEnvAllocateHardSkills-v0:
 #  n_timesteps: !!float 1e8
