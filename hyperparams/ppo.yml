@@ -10,13 +10,84 @@
 #  vf_coef: 0.5
 #  ent_coef: 0.01
 #  policy: 'MlpPolicy'
-SSEnvAllocateHardSkills-v0:
 
+SSEnvAllocateHardSkillsTest-v0:
+  n_envs: 8
+  n_timesteps: !!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+#  n_envs: 1
+#  n_timesteps: !!float 2e5 #!!float 1e6
+#  policy: 'MlpPolicy'
+#  env_wrapper: gymnasium.wrappers.FlattenObservation
+##  gamma: 0.9
+#  normalize: "{'norm_obs': False, 'norm_reward': False}"
+
+#SSEnvAllocateHardSkillsTest-v0:
+#  n_envs: 1
+#  n_timesteps: !!float 2e5 #!!float 1e6
+#  policy: 'MlpPolicy'
+#  env_wrapper: gymnasium.wrappers.FlattenObservation
+##  gamma: 0.9
+#  normalize: "{'norm_obs': False, 'norm_reward': False}"
+#  # Tuned study #9:
+#  batch_size: 128
+#  n_steps: 128
+#  gamma: 0.9999
+#  learning_rate:  0.0038494157699751766
+###  lr_schedule: 'linear'
+#  ent_coef: 4.630126437303005e-08
+#  clip_range: 0.4
+#  n_epochs: 20
+#  gae_lambda: 0.95
+#  max_grad_norm: 0.7
+#  vf_coef: 0.9634662774842931
+###  net_arch: 'medium', 'ortho_init': False, 'activation_fn': 'relu'}
+#  policy_kwargs: "dict(ortho_init=True,
+#                           activation_fn=nn.ReLU,
+#                           net_arch=dict(pi=[64, 64], vf=[64, 64])
+#                           )"
+
+SSEnvAllocateHardSkills-v0:
   n_envs: 2
   n_timesteps: !!float 1e6
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
   gamma: 0.9
+#  n_envs: 1
+#  n_timesteps: !!float 1e6 #!!float 1e6
+#  policy: 'MlpPolicy'
+#  env_wrapper: gymnasium.wrappers.FlattenObservation
+#  gamma: 0.9
+#  normalize: "{'norm_obs': False, 'norm_reward': False}"
+
+SSEnvAllocateHardSkillsTest-v1:
+
+  n_envs: 1
+  n_timesteps: !!float 1e6 #!!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 1.0
+  normalize: "{'norm_obs': False, 'norm_reward': False}"
+#  normalize: false
+# From here best #9:
+#  batch_size: 16
+#  n_steps: 128
+#  gamma: 0.9
+#  learning_rate: lin_5.50425531410902e-05
+##  lr_schedule: 'linear'
+#  ent_coef: 0.0004208488452796598
+#  clip_range: 0.1
+#  n_epochs: 20
+#  gae_lambda: 0.8
+#  max_grad_norm: 1
+#  vf_coef: 0.22564246604327365
+##  net_arch: 'medium', 'ortho_init': False, 'activation_fn': 'relu'}
+#  policy_kwargs: "dict(ortho_init=False,
+#                           activation_fn=nn.ReLU,
+#                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+#                           )"
 
 #SSEnvAllocateHardSkills-v0:
 #  n_timesteps: !!float 1e8
