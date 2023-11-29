@@ -12,7 +12,7 @@
 #  policy: 'MlpPolicy'
 
 RLD1-v0:
-  n_envs: 8
+  n_envs: 1
   n_timesteps: !!float 1e6
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
