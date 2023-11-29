@@ -11,6 +11,13 @@
 #  ent_coef: 0.01
 #  policy: 'MlpPolicy'
 
+RLD1-v0:
+  n_envs: 8
+  n_timesteps: !!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+
 SSEnvAllocateHardSkillsTest-v0:
   n_envs: 8
   n_timesteps: !!float 1e6
