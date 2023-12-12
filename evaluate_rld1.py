@@ -1,8 +1,5 @@
-# TODO: add runtime/training time saving to train_all_rls1.py (and any other training scripts).
-# TODO: add saving and analysis of other solution features to this script (e.g. prob cpts, other state variables?)
-# TODO: check obs normalisation warning.
-# TODO: Try enjoy with stochastic policy for N=1000 and take best...
-
+# TODO: get state file name from env for each. So can be plotted against RLS1 and GRASP.
+# TODO: tidy up this script.
 from gym_superscript.envs import SSEnvAllocateHardSkillsTest
 from gymnasium.wrappers import FlattenObservation
 from stable_baselines3 import PPO
@@ -16,6 +13,7 @@ import matplotlib.pyplot as plt
 import pickle
 import time
 import numpy as np
+import yaml
 
 N = 1000  # number of times to try stochasitc solution
 deterministic = False
@@ -34,38 +32,34 @@ if __name__ == '__main__':
     times = []
     rel = []
 
-    for state in grasp_results.keys():
+    with open('./hyperparams/ppo.yml', 'r') as infile:
+        hyperparams = yaml.safe_load(infile)['RLD1-v1.214']
 
-        state_name = state.split('.')[0]
-        print(state_name)
-        try:
+    env = create_test_env(
+        env_id="RLD1-v1.214",
+        env_kwargs={
+            'evaluation_flag': True,
+            'render_mode': 'None'
+        },
+        hyperparams=hyperparams
+    )
+
+    best_model = PPO.load(
+        './logs/ppo/RLD1-v1.214_1/best_model',
+    )
+
+    # for state in grasp_results.keys():
+    # all_states = env.previous_results['state_file']
+    for si in range(100):
+
+        # state_id = env.evaluation_state_id - 1
+        # if state_id == -1:
+        #     state_id = 99
+        # state =
+        # state_name = state.split('.')[0]
+        # print(state_name)
+        # try:
             start = time.time()
-            env = create_test_env(
-                env_id="SSEnvAllocateHardSkillsTest-%s" % state_name,
-                hyperparams={
-                            'n_envs': 2,
-                            'n_timesteps': 400000,
-                            'policy': 'MlpPolicy',
-                            'env_wrapper': 'gymnasium.wrappers.FlattenObservation',
-                            'gamma': 0.9
-                    },
-                env_kwargs={
-                    'render_mode': 'None',
-                    'env_config_flags': {
-                        'produce_failed_state_flag': False,
-                        'normalise_observation_state': False,
-                        'include_previous_probability_in_observations': False,
-                        'include_current_probability_in_observations': False,
-                        'include_fail_flags_in_observations': False,
-                        'reward_range': [0, 1]
-                    }
-                }
-            )
-
-            best_model = PPO.load(
-                './logs/ppo/rls1_gpu_normalised_no_wandb/ppo/SSEnvAllocateHardSkillsTest-%s_1/best_model' % state_name,
-            )
-
             best_score = 0
             for ni in range(N):
 
@@ -83,7 +77,7 @@ if __name__ == '__main__':
                     actions.append(action)
                     episode_reward += reward
 
-                    if len(actions) > 35:
+                    if len(actions) >= 35:
                         done = True
 
                 if episode_reward > best_score:
@@ -91,25 +85,26 @@ if __name__ == '__main__':
 
             # print("RLS1: ", episode_reward)
             # print("GRASP: ", grasp_results[state])
-
+            grasp_result = env.get_attr('previous_result_success_probability')
             delta.append(
-                best_score - grasp_results[state]
+                best_score #- grasp_result
             )
             rel.append(
-                best_score / grasp_results[state]
+                best_score #/ grasp_result
             )
             times.append((time.time() - start) / 60)
 
-        except:
-            pass
+        # except:
+        #     pass
 
     print(times)
     print(np.mean(rel))
     print(np.mean(times))
     plt.scatter(range(len(delta)), delta)
-    plt.axhline(0)
+    plt.axhline(1, c='k')
     plt.xlabel('state')
-    plt.ylabel('probability_RLS1 - probability_GRASP')
+    plt.ylabel('probability_RLD1 / probability_GRASP')
+    plt.title("Mean(RLD1/GRASP) = %.2f\n Mean runtime = %.2fs" % (np.mean(rel), 60*np.mean(times)))
     plt.grid()
     plt.show()
 
