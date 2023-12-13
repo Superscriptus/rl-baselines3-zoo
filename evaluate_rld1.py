@@ -15,8 +15,8 @@ import time
 import numpy as np
 import yaml
 
-N = 1000  # number of times to try stochasitc solution
-deterministic = False
+N = 10  # number of times to try stochasitc solution
+deterministic = True
 
 if __name__ == '__main__':
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     env = create_test_env(
         env_id="RLD1-v1.214",
         env_kwargs={
-            'evaluation_flag': True,
+            'mode': 'evaluation',
             'render_mode': 'None'
         },
         hyperparams=hyperparams
