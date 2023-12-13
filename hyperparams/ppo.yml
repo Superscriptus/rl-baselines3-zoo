@@ -12,11 +12,33 @@
 #  policy: 'MlpPolicy'
 
 RLD1-v0:
-  n_envs: 1
+  n_envs: 50
+  n_timesteps: !!float 2e5
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+
+RLD1-v1.214:
+  n_envs: 50
   n_timesteps: !!float 1e6
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
   gamma: 0.9
+  batch_size: 16 
+  learning_rate: lin_0.00046880146559192436 
+  ent_coef: 0.00020945998820372043
+  n_epochs: 1 
+  max_grad_norm: 5 
+  n_steps: 128
+  gamma: 0.9
+  clip_range: 0.2
+  gae_lambda: 0.98
+  vf_coef: 0.30315046906075943 
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.ReLU,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
 
 SSEnvAllocateHardSkillsTest-v0:
   n_envs: 2
