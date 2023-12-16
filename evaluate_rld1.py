@@ -16,7 +16,7 @@ import numpy as np
 import yaml
 
 N = 10  # number of times to try stochasitc solution
-deterministic = True
+deterministic = False 
 
 if __name__ == '__main__':
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     )
 
     best_model = PPO.load(
-        './logs/ppo/RLD1-v1.214_1/best_model',
+        './logs/ppo/RLD1-v1.214_10/best_model',
     )
 
     # for state in grasp_results.keys():
@@ -90,7 +90,7 @@ if __name__ == '__main__':
                 best_score #- grasp_result
             )
             rel.append(
-                best_score #/ grasp_result
+                best_score[0] #/ grasp_result
             )
             times.append((time.time() - start) / 60)
 
@@ -98,6 +98,7 @@ if __name__ == '__main__':
         #     pass
 
     print(times)
+    print(best_score)
     print(np.mean(rel))
     print(np.mean(times))
     plt.scatter(range(len(delta)), delta)
