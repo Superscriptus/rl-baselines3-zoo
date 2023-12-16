@@ -38,6 +38,26 @@ RLD1-v1.214:
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
                            )"
 
+RLD1-v3.234:
+  n_envs: 50
+  n_timesteps: !!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.99
+  batch_size: 64
+  learning_rate: lin_0.0003907124705653557
+  ent_coef: 2.7514926693621936e-06
+  n_epochs: 10
+  max_grad_norm: 1
+  n_steps: 512
+  clip_range: 0.1
+  gae_lambda: 0.98
+  vf_coef: 0.9303733938776297
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
 # copying from RLD1 (prior to hypertuning)
 RLD2-v0:
   n_envs: 50
