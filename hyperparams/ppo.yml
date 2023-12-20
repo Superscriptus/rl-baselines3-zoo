@@ -60,7 +60,7 @@ RLD1-v3.234:
 
 # copying from RLD1 (prior to hypertuning)
 RLD2-v0:
-  n_envs: 50
+  n_envs: 200
   n_timesteps: !!float 1e6
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation

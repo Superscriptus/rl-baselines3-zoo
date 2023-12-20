@@ -15,7 +15,7 @@ import time
 import numpy as np
 import yaml
 
-N = 10  # number of times to try stochasitc solution
+N = 1000  # number of times to try stochasitc solution
 deterministic = False 
 
 if __name__ == '__main__':
@@ -36,7 +36,7 @@ if __name__ == '__main__':
         hyperparams = yaml.safe_load(infile)['RLD1-v1.214']
 
     env = create_test_env(
-        env_id="RLD1-v1.214",
+        env_id="RLD1-v3.234",
         env_kwargs={
             'mode': 'evaluation',
             'render_mode': 'None'
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     )
 
     best_model = PPO.load(
-        './logs/ppo/RLD1-v1.214_10/best_model',
+        './logs/ppo/RLD1-v3.234_2/best_model',
     )
 
     # for state in grasp_results.keys():
@@ -92,7 +92,7 @@ if __name__ == '__main__':
             rel.append(
                 best_score[0] #/ grasp_result
             )
-            times.append((time.time() - start) / 60)
+            times.append((time.time() - start) )
 
         # except:
         #     pass
@@ -105,7 +105,7 @@ if __name__ == '__main__':
     plt.axhline(1, c='k')
     plt.xlabel('state')
     plt.ylabel('probability_RLD1 / probability_GRASP')
-    plt.title("Mean(RLD1/GRASP) = %.2f\n Mean runtime = %.2fs" % (np.mean(rel), 60*np.mean(times)))
+    plt.title("Mean(RLD1/GRASP) = %.2f\n Mean runtime = %.2fs" % (np.mean(rel), np.mean(times)))
     plt.grid()
     plt.show()
 
