@@ -58,7 +58,7 @@ RLD1-v3.234:
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
                            )"
 
-# copying from RLD1 (prior to hypertuning)
+# copying from RLD1 Study 1 (prior to hypertuning)
 RLD2-v0:
   n_envs: 200
   n_timesteps: !!float 1e6

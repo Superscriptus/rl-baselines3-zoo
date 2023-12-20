@@ -161,7 +161,7 @@ class ExperimentManager:
         self.pruner = pruner
         self.n_startup_trials = n_startup_trials
         self.n_evaluations = n_evaluations
-        self.deterministic_eval = not (self.is_atari(env_id) or self.is_minigrid(env_id))
+        self.deterministic_eval = not (self.is_atari(env_id) or self.is_minigrid(env_id) or self.is_rld2(env_id))
         self.device = device
 
         # Logging
@@ -517,6 +517,10 @@ class ExperimentManager:
     @staticmethod
     def entry_point(env_id: str) -> str:
         return str(gym.envs.registry[env_id].entry_point)  # pytype: disable=module-attr
+
+    @staticmethod
+    def is_rld2(env_id: str) -> bool:
+        return "RLD2" in ExperimentManager.entry_point(env_id)
 
     @staticmethod
     def is_atari(env_id: str) -> bool:
