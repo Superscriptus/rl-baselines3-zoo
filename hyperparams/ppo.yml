@@ -94,8 +94,8 @@ RLD2-v1:
 # Several params at upper end of study 2 dists, and did not use 'large' option for net_arch.
 # Re-run study with different param values?
 RLD2-v2.38:
-  n_envs: 50
-  n_timesteps: !!float 1e6
+  n_envs: 48
+  n_timesteps: !!float 1e7
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
   gamma: 0.9
