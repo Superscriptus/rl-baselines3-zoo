@@ -114,7 +114,7 @@ RLD2-v2.38:
                            )"
 
 RLD2_50-v1:
-  n_envs: 1
+  n_envs: 48
   n_timesteps: !!float 1e7
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
