@@ -58,7 +58,7 @@ def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
     return {
         "n_steps": n_steps,
         "batch_size": batch_size,
-        # "gamma": gamma,
+        "gamma": gamma,
         "learning_rate": learning_rate,
         "ent_coef": ent_coef,
         "clip_range": clip_range,

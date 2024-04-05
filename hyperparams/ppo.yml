@@ -115,7 +115,7 @@ RLD2-v2.38:
 
 RLD2_50-v1:
   n_envs: 48
-  n_timesteps: !!float 1e7
+  n_timesteps: !!float 5e6
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
   gamma: 0.9
