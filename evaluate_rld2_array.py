@@ -19,7 +19,7 @@ import time
 import numpy as np
 import yaml
 
-N = 10  # number of times to try stochastic solution
+N = 200  # number of times to try stochastic solution
 deterministic = False
 
 if __name__ == '__main__':
