@@ -49,6 +49,26 @@ RLD1-v4.454:
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
                            )"
 
+RLD1-v4.645:
+  n_envs: 50
+  n_timesteps: !!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+  batch_size: 256
+  learning_rate: lin_0.0002597045917863962
+  ent_coef: 0.07366823770155387
+  n_epochs: 20
+  max_grad_norm: 0.3
+  n_steps: 512
+  clip_range: 0.1
+  gae_lambda: 0.95
+  vf_coef:  0.3800823950951657
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
 RLD1-v1.214:
   n_envs: 50
   n_timesteps: !!float 1e6
@@ -127,6 +147,26 @@ RLD2-v2.38:
   clip_range: 0.2
   gae_lambda: 0.92
   vf_coef: 0.022057051033726807
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.ReLU,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
+RLD2-v3.106:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+  batch_size: 8
+  learning_rate: lin_1.8077517684181784e-05
+  ent_coef: 0.0004239092626553941
+  n_epochs: 5
+  max_grad_norm: 0.5
+  n_steps: 256
+  clip_range: 0.3
+  gae_lambda: 0.92
+  vf_coef: 0.7151582132784553
   policy_kwargs: "dict(ortho_init=False,
                            activation_fn=nn.ReLU,
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
