@@ -29,6 +29,25 @@ RLD2-v0:
   #                         net_arch=dict(pi=[1024, 1024], vf=[1024, 1024])
    #                        )"
 
+RLD1-v4.454:
+  n_envs: 50
+  n_timesteps: !!float 1e6
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9999
+  batch_size: 16
+  learning_rate: lin_7.64271490341536e-05
+  ent_coef: 0.08204126859237844
+  n_epochs: 20
+  max_grad_norm: 0.7
+  n_steps: 512
+  clip_range: 0.2
+  gae_lambda: 0.98
+  vf_coef:  0.17698802200267943
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
 
 RLD1-v1.214:
   n_envs: 50
