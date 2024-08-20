@@ -212,6 +212,27 @@ RLD2_50-v1.37:
                            net_arch=dict(pi=[64, 64], vf=[64, 64])
                            )"
 
+# Copied from above (Study 1 trial 37).
+RLD2_20-v1:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 16
+  learning_rate: lin_0.00016326116856655725
+  ent_coef: 0.007849783727428542
+  n_epochs: 5
+  max_grad_norm: 5
+  n_steps: 64
+  clip_range: 0.2
+  gae_lambda: 0.92
+  vf_coef: 0.317756620925129
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.ReLU,
+                           net_arch=dict(pi=[64, 64], vf=[64, 64])
+                           )"
+
 
 SSEnvAllocateHardSkillsTest-v0:
   n_envs: 2
