@@ -213,6 +213,46 @@ RLD2-v3.106:
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
                            )"
 
+RLD2-v3.106-linear:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+  batch_size: 8
+  learning_rate: lin_1.8077517684181784e-05
+  ent_coef: 0.0004239092626553941
+  n_epochs: 5
+  max_grad_norm: 0.5
+  n_steps: 256
+  clip_range: 0.3
+  gae_lambda: 0.92
+  vf_coef: 0.7151582132784553
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.ReLU,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
+RLD2-v3.106-nonlinear:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+  batch_size: 8
+  learning_rate: lin_1.8077517684181784e-05
+  ent_coef: 0.0004239092626553941
+  n_epochs: 5
+  max_grad_norm: 0.5
+  n_steps: 256
+  clip_range: 0.3
+  gae_lambda: 0.92
+  vf_coef: 0.7151582132784553
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.ReLU,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
 RLD2_50-v1:
   n_envs: 48
   n_timesteps: !!float 5e6
