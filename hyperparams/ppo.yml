@@ -87,6 +87,7 @@ RLD1-v4.645-linear:
   policy_kwargs: "dict(ortho_init=False,
                            activation_fn=nn.Tanh,
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
+
                            )"
 
 RLD1-v4.645-nonlinear:
@@ -293,26 +294,48 @@ RLD2_50-v1.37:
                            net_arch=dict(pi=[64, 64], vf=[64, 64])
                            )"
 
-# Copied from above (Study 1 trial 37).
-RLD2_20-v1:
+# Nonlinear study 1 trial 62:
+RLD2_20-v1.62-nonlinear:
   n_envs: 48
   n_timesteps: !!float 1e7
   policy: 'MlpPolicy'
   env_wrapper: gymnasium.wrappers.FlattenObservation
   gamma: 0.95
-  batch_size: 16
-  learning_rate: lin_0.00016326116856655725
-  ent_coef: 0.007849783727428542
-  n_epochs: 5
-  max_grad_norm: 5
-  n_steps: 64
-  clip_range: 0.2
-  gae_lambda: 0.92
-  vf_coef: 0.317756620925129
-  policy_kwargs: "dict(ortho_init=False,
-                           activation_fn=nn.ReLU,
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.0014381247818256715
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
                            net_arch=dict(pi=[64, 64], vf=[64, 64])
                            )"
+# Nonlinear study 1 trial 62:
+RLD2_20-v1.62-linear:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.0014381247818256715
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[64, 64], vf=[64, 64])
+                           )"
+
+
 # Copied from above (Study 1 trial 37).
 RLD2_10-v1:
   n_envs: 48
