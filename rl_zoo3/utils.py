@@ -12,7 +12,7 @@ import yaml
 from gymnasium import spaces
 from huggingface_hub import HfApi
 from huggingface_sb3 import EnvironmentName, ModelName
-from sb3_contrib import ARS, QRDQN, TQC, TRPO, RecurrentPPO
+from sb3_contrib import ARS, QRDQN, TQC, TRPO, MaskablePPO, RecurrentPPO
 from stable_baselines3 import A2C, DDPG, DQN, PPO, SAC, TD3
 from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.callbacks import BaseCallback
@@ -36,7 +36,44 @@ ALGOS: Dict[str, Type[BaseAlgorithm]] = {
     "tqc": TQC,
     "trpo": TRPO,
     "ppo_lstm": RecurrentPPO,
+    # Invalid-action masking (issue #68): used for the RLD2 retraining round;
+    # RLD2 envs expose action_masks() (gym_superscript rld2.py).
+    "ppo_mask": MaskablePPO,
 }
+
+
+# --- Subproc-safe masking-support check (issue #68) --------------------------
+# sb3_contrib 2.3.0's is_masking_supported() probes a VecEnv with
+# env.get_attr("action_masks"), which makes each SubprocVecEnv worker pickle
+# the BOUND METHOD — and therefore the ENTIRE env — back over the pipe. The
+# RLD2 envs are not picklable (the nested frozen RLD1 PPO holds a
+# linear_schedule closure), so every worker died with
+# "AttributeError: Can't pickle local object 'linear_schedule.<locals>.func'"
+# (verified live 2026-07-08; same first-rollout EOFError signature as the dead
+# Dec-2024 campaign). The check runs at the start of EVERY
+# MaskablePPO.collect_rollouts and inside the maskable evaluate_policy, so it
+# cannot be avoided. This replacement CALLS the method via env_method()
+# instead, shipping only the small picklable mask array from worker 0 — same
+# mechanism get_action_masks() itself uses during rollouts. Numerics are
+# unchanged; only the capability probe differs. (The upstream get_attr probe
+# also killed workers when the method was MISSING, so this is strictly safer.)
+# Revert: delete this block (and expect ppo_mask+subproc to crash again).
+def _is_masking_supported_subproc_safe(env) -> bool:
+    if isinstance(env, VecEnv):
+        try:
+            return env.env_method("action_masks", indices=0)[0] is not None
+        except AttributeError:
+            return False
+    return hasattr(env, "action_masks")
+
+
+import sb3_contrib.common.maskable.utils as _sb3c_maskable_utils  # noqa: E402
+import sb3_contrib.common.maskable.evaluation as _sb3c_maskable_evaluation  # noqa: E402
+import sb3_contrib.ppo_mask.ppo_mask as _sb3c_ppo_mask_module  # noqa: E402
+
+_sb3c_maskable_utils.is_masking_supported = _is_masking_supported_subproc_safe
+_sb3c_maskable_evaluation.is_masking_supported = _is_masking_supported_subproc_safe
+_sb3c_ppo_mask_module.is_masking_supported = _is_masking_supported_subproc_safe
 
 
 def flatten_dict_observations(env: gym.Env) -> gym.Env:
