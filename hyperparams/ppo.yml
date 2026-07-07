@@ -110,6 +110,50 @@ RLD1-v4.645-nonlinear:
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
                            )"
 
+# Observation-encoding fix A/B (issue #68): hyperparameters copied VERBATIM
+# from RLD1-v4.645-nonlinear (existing best hypers, Chris decision Q1). The
+# env ids differ only in the fixed_observation_encoding kwarg set at env
+# registration in gym_superscript/__init__.py.
+RLD1-v5.0-nonlinear-origobs:
+  n_envs: 50
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+  batch_size: 256
+  learning_rate: lin_0.0002597045917863962
+  ent_coef: 0.07366823770155387
+  n_epochs: 20
+  max_grad_norm: 0.3
+  n_steps: 512
+  clip_range: 0.1
+  gae_lambda: 0.95
+  vf_coef:  0.3800823950951657
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
+RLD1-v5.0-nonlinear-fixedobs:
+  n_envs: 50
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.9
+  batch_size: 256
+  learning_rate: lin_0.0002597045917863962
+  ent_coef: 0.07366823770155387
+  n_epochs: 20
+  max_grad_norm: 0.3
+  n_steps: 512
+  clip_range: 0.1
+  gae_lambda: 0.95
+  vf_coef:  0.3800823950951657
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
 
 RLD1-v1.214:
   n_envs: 50
@@ -314,6 +358,50 @@ RLD2_20-v1.62-nonlinear:
                            activation_fn=nn.Tanh,
                            net_arch=dict(pi=[64, 64], vf=[64, 64])
                            )"
+# Observation-encoding fix A/B (issue #68): hyperparameters copied VERBATIM
+# from RLD2_20-v1.62-nonlinear (existing best hypers, Chris decision Q1). The
+# env ids differ only in the fixed_observation_encoding kwarg set at env
+# registration in gym_superscript/__init__.py.
+RLD2_20-v2.0-nonlinear-origobs:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.0014381247818256715
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[64, 64], vf=[64, 64])
+                           )"
+
+RLD2_20-v2.0-nonlinear-fixedobs:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.0014381247818256715
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[64, 64], vf=[64, 64])
+                           )"
+
 # Nonlinear study 1 trial 62:
 RLD2_20-v1.62-linear:
   n_envs: 48
