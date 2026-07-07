@@ -1,0 +1,37 @@
+# MaskablePPO hyperparameters (issue #68 learning-fix round).
+# Loaded automatically by train.py --algo ppo_mask.
+#
+# RLD2_20-v2.1-nonlinear-masked: copied from the shipped RLD2_20-v1.62-nonlinear
+# ppo.yml entry (nonlinear study 1 trial 62) EXCEPT:
+#   * net_arch [64,64] -> [256,256]. Diagnosis cause #1c: the shipped RLD2_20
+#     trained a [64,64] net on an 882-dim observation while RLD1 uses [256,256]
+#     on 167 dims (rld2.py even carries a zoo TODO asking for a 'large' arch).
+#   * ent_coef 0.0014381 -> 0.02. Diagnosis cause #1b (entropy collapse,
+#     p10 = 0.044 nats): 0.02 is the middle of the diagnosis-recommended sweep
+#     {0.005, 0.02, 0.07}; RLD1's tuned 0.074 is NOT copied verbatim because it
+#     was tuned for a 35-action, ~13-step task, while RLD2_20 episodes are <= 7
+#     steps with masking already removing the invalid-action exploration burden.
+#     0.02 * ln(20) ~= 0.06/step entropy bonus vs +-0.05 marginal rewards:
+#     strong pressure against collapse without drowning the signal.
+# Everything else (gamma, lr schedule, batch, epochs, n_steps, clip, gae_lambda,
+# vf_coef, ortho_init, tanh, n_envs 48, 1e7 budget) matches the shipped run so
+# the masked round differs from it in exactly the diagnosed fixes.
+RLD2_20-v2.1-nonlinear-masked:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.02
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
