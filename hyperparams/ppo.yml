@@ -1147,3 +1147,24 @@ Walker2d-v3:
   gae_lambda: 0.95
   max_grad_norm: 1
   vf_coef: 0.871923
+
+# ABM-free synthetic training env (R3); HPs copied from v1.62-nonlinear as the search seed for --optimize
+RLD2_20-v3.0-nonlinear-synth:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.0014381247818256715
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[64, 64], vf=[64, 64])
+                           )"
