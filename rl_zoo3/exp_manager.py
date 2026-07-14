@@ -799,7 +799,10 @@ class ExperimentManager:
             pprint(sampled_hyperparams)
             raise optuna.exceptions.TrialPruned() from e
         is_pruned = eval_callback.is_pruned
-        reward = eval_callback.last_mean_reward
+        # issue #68: score the BEST eval (peak checkpoint), not the final one —
+        # PPO on the synthetic->real domain gap peaks then drifts, and we deploy
+        # the peak checkpoint, so the objective must be its score. (was: last_mean_reward)
+        reward = eval_callback.best_mean_reward
 
         del model.env, eval_env
         del model
