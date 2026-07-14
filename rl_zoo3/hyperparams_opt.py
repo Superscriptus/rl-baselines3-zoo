@@ -25,10 +25,13 @@ def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
     ent_coef = trial.suggest_float("ent_coef", 0.00000001, 0.1, log=True)
     clip_range = trial.suggest_categorical("clip_range", [0.1, 0.2, 0.3, 0.4])
     n_epochs = trial.suggest_categorical("n_epochs", [1, 5, 10, 20])
-    gae_lambda = trial.suggest_categorical("gae_lambda", [0.8, 0.9, 0.92, 0.95, 0.98, 0.99, 1.0])
+    # gae_lambda extended DOWN (0.6, 0.7): every working RLD2-synth trial pinned
+    # at the old floor 0.8 (rld2_synth_v1).
+    gae_lambda = trial.suggest_categorical("gae_lambda", [0.6, 0.7, 0.8, 0.9, 0.92, 0.95, 0.98, 0.99, 1.0])
     max_grad_norm = trial.suggest_categorical("max_grad_norm", [0.3, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 5])
     vf_coef = trial.suggest_float("vf_coef", 0, 1)
-    net_arch = trial.suggest_categorical("net_arch", ["small", "medium"])
+    # 'large'/'xlarge' added: RLD2-synth top trials pinned at the old max 'medium'.
+    net_arch = trial.suggest_categorical("net_arch", ["small", "medium", "large", "xlarge"])
     # Uncomment for gSDE (continuous actions)
     # log_std_init = trial.suggest_float("log_std_init", -4, 1)
     # Uncomment for gSDE (continuous action)
@@ -51,6 +54,8 @@ def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
     net_arch = {
         "small": dict(pi=[64, 64], vf=[64, 64]),
         "medium": dict(pi=[256, 256], vf=[256, 256]),
+        "large": dict(pi=[512, 512], vf=[512, 512]),
+        "xlarge": dict(pi=[512, 512, 256], vf=[512, 512, 256]),
     }[net_arch]
 
     activation_fn = {"tanh": nn.Tanh, "relu": nn.ReLU, "elu": nn.ELU, "leaky_relu": nn.LeakyReLU}[activation_fn]
