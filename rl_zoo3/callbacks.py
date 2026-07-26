@@ -50,6 +50,9 @@ class TrialEvalCallback(EvalCallback):
             self.eval_idx += 1
             # report best or report current ?
             # report num_timesteps or elasped time ?
+            # issue #68: report best-so-far (matches the best-eval objective in
+            # exp_manager.objective) so MedianPruner compares monotone curves and
+            # a good trial isn't pruned on one noisy dip. (was: last_mean_reward)
             self.trial.report(self.best_mean_reward, self.eval_idx)
             # Prune trial if need
             if self.trial.should_prune():

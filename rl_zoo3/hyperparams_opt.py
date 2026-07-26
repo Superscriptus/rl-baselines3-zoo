@@ -25,10 +25,12 @@ def sample_ppo_params(trial: optuna.Trial) -> Dict[str, Any]:
     ent_coef = trial.suggest_float("ent_coef", 0.00000001, 0.1, log=True)
     clip_range = trial.suggest_categorical("clip_range", [0.1, 0.2, 0.3, 0.4])
     n_epochs = trial.suggest_categorical("n_epochs", [1, 5, 10, 20])
-    # gae_lambda extended DOWN (0.6, 0.7): RLD2-synth trials pinned toward the low end (issue #68)
+    # gae_lambda extended DOWN (0.6, 0.7): every working RLD2-synth trial pinned
+    # toward the old floor 0.8 (rld2_synth_v1). (issue #68)
     gae_lambda = trial.suggest_categorical("gae_lambda", [0.6, 0.7, 0.8, 0.9, 0.92, 0.95, 0.98, 0.99, 1.0])
     max_grad_norm = trial.suggest_categorical("max_grad_norm", [0.3, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2, 5])
     vf_coef = trial.suggest_float("vf_coef", 0, 1)
+    # 'large'/'xlarge' added: RLD2-synth top trials pinned at the old max 'medium'.
     net_arch = trial.suggest_categorical("net_arch", ["small", "medium", "large", "xlarge"])
     # Uncomment for gSDE (continuous actions)
     # log_std_init = trial.suggest_float("log_std_init", -4, 1)
