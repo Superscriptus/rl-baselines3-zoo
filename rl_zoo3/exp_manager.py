@@ -48,7 +48,7 @@ from torch import nn as nn
 
 # Register custom envs
 import rl_zoo3.import_envs  # noqa: F401 pytype: disable=import-error
-from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback
+from rl_zoo3.callbacks import MaskableTrialEvalCallback, SaveVecNormalizeCallback, TrialEvalCallback
 from rl_zoo3.hyperparams_opt import HYPERPARAMS_SAMPLER
 from rl_zoo3.utils import ALGOS, get_callback_list, get_class_by_name, get_latest_run_id, get_wrapper_class, linear_schedule
 
@@ -771,7 +771,16 @@ class ExperimentManager:
         if self.optimization_log_path is not None:
             path = os.path.join(self.optimization_log_path, f"trial_{trial.number!s}")
         callbacks = get_callback_list({"callback": self.specified_callbacks})
-        eval_callback = TrialEvalCallback(
+        # MaskablePPO (issue #68): score Optuna trials with MASKED evaluation
+        # (as deployed), mirroring create_callbacks; the stock TrialEvalCallback
+        # evaluates unmasked -> every masked trial scored ~0 (ep_len 2). verbose=1
+        # so each intermediate eval prints (an --optimize run is otherwise silent
+        # until the first full trial completes). Revert: restore TrialEvalCallback
+        # unconditionally and drop verbose.
+        trial_eval_callback_class = (
+            MaskableTrialEvalCallback if self.algo == "ppo_mask" else TrialEvalCallback
+        )
+        eval_callback = trial_eval_callback_class(
             eval_env,
             trial,
             best_model_save_path=path,
@@ -779,6 +788,7 @@ class ExperimentManager:
             n_eval_episodes=self.n_eval_episodes,
             eval_freq=optuna_eval_freq,
             deterministic=self.deterministic_eval,
+            verbose=1,
         )
         callbacks.append(eval_callback)
 
@@ -806,7 +816,7 @@ class ExperimentManager:
             pprint(sampled_hyperparams)
             raise optuna.exceptions.TrialPruned() from e
         is_pruned = eval_callback.is_pruned
-        reward = eval_callback.last_mean_reward
+        reward = eval_callback.best_mean_reward  # best-eval scoring (issue #68): score the trial by its peak eval
 
         del model.env, eval_env
         del model

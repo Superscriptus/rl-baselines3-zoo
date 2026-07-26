@@ -35,3 +35,75 @@ RLD2_20-v2.1-nonlinear-masked:
                            activation_fn=nn.Tanh,
                            net_arch=dict(pi=[256, 256], vf=[256, 256])
                            )"
+
+# ABM-free synth env: TRAIN synthetic pools, EVAL real D_val. Same RLD2_20 structure.
+RLD2_20-v3.0-nonlinear-synth:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.02
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
+# Deterministic beat-Greedy synth env (issue #68; plan
+# planning/deterministic_beat_greedy_masterplan_020718.md Step 3a). Identical
+# base structure to RLD2_20-v3.0-nonlinear-synth (these are the FIXED defaults;
+# --optimize's sampler overrides the searched HPs), but on the -detfix env id
+# whose three fixes are ON (score_partial_teams, best_team_reward,
+# deterministic_fallback). Used by hypertune study rld2_synth_detfix_v6.
+RLD2_20-v6.0-nonlinear-synth-detfix:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.95
+  batch_size: 256
+  learning_rate: lin_0.0005823909466851841
+  ent_coef: 0.02
+  n_epochs: 20
+  max_grad_norm: 0.6
+  n_steps: 256
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.5998862022506319
+  policy_kwargs: "dict(ortho_init=True,
+                           activation_fn=nn.Tanh,
+                           net_arch=dict(pi=[256, 256], vf=[256, 256])
+                           )"
+
+# Real-ABM sensitivity-sweep env: TRAIN on live ABMs diversely parameterised
+# across the paper's 8 sensitivity scenarios, EVAL on real D_val
+# (greedy-normalised). Hyperparameters = trial 2 of the synthetic hypertune
+# study rld2_synth_masked_v4 (value 0.8947, the current best): xlarge
+# net [512,512,256], relu, ortho_init False, from-scratch.
+RLD2_20-v2.1-nonlinear-masked-sensitivity:
+  n_envs: 48
+  n_timesteps: !!float 1e7
+  policy: 'MlpPolicy'
+  env_wrapper: gymnasium.wrappers.FlattenObservation
+  gamma: 0.995
+  batch_size: 16
+  learning_rate: lin_0.0000481649335745757
+  ent_coef: !!float 1.577021993451507e-06
+  n_epochs: 20
+  max_grad_norm: 0.9
+  n_steps: 512
+  clip_range: 0.1
+  gae_lambda: 0.8
+  vf_coef: 0.27916430687150895
+  policy_kwargs: "dict(ortho_init=False,
+                           activation_fn=nn.ReLU,
+                           net_arch=dict(pi=[512, 512, 256], vf=[512, 512, 256])
+                           )"

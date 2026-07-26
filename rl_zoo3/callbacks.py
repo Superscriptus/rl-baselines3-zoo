@@ -10,6 +10,7 @@ import optuna
 from sb3_contrib import TQC
 from stable_baselines3 import SAC
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback
+from sb3_contrib.common.maskable.callbacks import MaskableEvalCallback  # issue #68: masked Optuna eval
 from stable_baselines3.common.logger import TensorBoardOutputFormat
 from stable_baselines3.common.vec_env import VecEnv
 
@@ -49,8 +50,64 @@ class TrialEvalCallback(EvalCallback):
             self.eval_idx += 1
             # report best or report current ?
             # report num_timesteps or elasped time ?
-            self.trial.report(self.last_mean_reward, self.eval_idx)
+            self.trial.report(self.best_mean_reward, self.eval_idx)
             # Prune trial if need
+            if self.trial.should_prune():
+                self.is_pruned = True
+                return False
+        return True
+
+
+class MaskableTrialEvalCallback(MaskableEvalCallback):
+    """MaskablePPO twin of TrialEvalCallback (issue #68).
+
+    The stock TrialEvalCallback inherits EvalCallback, whose evaluate_policy
+    calls model.predict() WITHOUT action_masks. For a mask-trained policy the
+    unmasked deterministic argmax immediately re-selects an already-chosen
+    worker (the only invalid action), tripping the repeated_action 0-reward
+    termination: every Optuna intermediate eval in study rld2_synth_masked_v1
+    scored reward=0.0 at ep_len=2.0, so TPE/median-pruner received no signal
+    and the whole hypertune was uninformative. This twin evaluates WITH
+    masking (use_masking=True), exactly like the MaskableEvalCallback already
+    wired into the raw-train path (exp_manager.create_callbacks). It reports
+    self.best_mean_reward (best-so-far eval); the plain TrialEvalCallback and
+    the objective()'s returned value were switched to best_mean_reward too
+    (agreed best-eval scoring, issue #68), so the pruner sees a monotone
+    best-so-far curve and a good trial is not pruned on a single noisy dip.
+    Revert: delete this class, its MaskableEvalCallback import, and the
+    ppo_mask branch in ExperimentManager.objective (all issue #68).
+    """
+
+    def __init__(
+        self,
+        eval_env: VecEnv,
+        trial: optuna.Trial,
+        n_eval_episodes: int = 5,
+        eval_freq: int = 10000,
+        deterministic: bool = True,
+        verbose: int = 0,
+        best_model_save_path: Optional[str] = None,
+        log_path: Optional[str] = None,
+    ) -> None:
+        super().__init__(
+            eval_env=eval_env,
+            n_eval_episodes=n_eval_episodes,
+            eval_freq=eval_freq,
+            deterministic=deterministic,
+            verbose=verbose,
+            best_model_save_path=best_model_save_path,
+            log_path=log_path,
+            use_masking=True,
+        )
+        self.trial = trial
+        self.eval_idx = 0
+        self.is_pruned = False
+
+    def _on_step(self) -> bool:
+        if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
+            super()._on_step()
+            self.eval_idx += 1
+            self.trial.report(self.best_mean_reward, self.eval_idx)
             if self.trial.should_prune():
                 self.is_pruned = True
                 return False
