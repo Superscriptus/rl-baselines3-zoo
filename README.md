@@ -1,3 +1,55 @@
+# SuperScript fork of RL Baselines3 Zoo
+
+> **This is a fork** of [DLR-RM/rl-baselines3-zoo](https://github.com/DLR-RM/rl-baselines3-zoo)
+> (upstream state ~v2.2.0a4) used to train and evaluate the hierarchical RL
+> team-selection policies (RLD1 / RLD2) for **SuperScript**, an agent-based
+> model of team allocation in project-based organisations. It is a git
+> submodule of [superscript-abm](https://github.com/Superscriptus/superscript-abm);
+> see the top-level [OptimizationExperiments](https://github.com/Superscriptus/OptimizationExperiments)
+> repository for the article-reproduction instructions.
+
+**What this fork adds/changes vs upstream** (everything else below is the
+unmodified upstream README):
+
+- `hyperparams/ppo.yml`: tuned PPO configurations for the SuperScript
+  Gymnasium environments (`RLD1-*`, `RLD2-*`, `RLD2_<N>-*`, `RLD2_50-*`,
+  and legacy `SSEnv*` IDs), which is how article agents were trained, e.g.
+  `python train.py --algo ppo --env RLD2_20-v1.62-nonlinear`.
+- `rl_zoo3/import_envs.py`: imports `gym_superscript` so the custom env IDs
+  are registered for `train.py` / `enjoy.py`.
+- `rl_zoo3/exp_manager.py`: adds an `is_rld2()` helper (RLD2-specific eval
+  handling; currently inert — upstream deterministic eval behaviour).
+- `rl_zoo3/hyperparams_opt.py`: PPO Optuna search space tweaks (gamma,
+  lr_schedule, ortho_init tunable) used for the project's hypertuning runs.
+- `evaluate_rld1.py`, `evaluate_rld2.py`, `evaluate_rld2_array.py`,
+  `evaluate_rls1_trained_agents.py` (repo root): project evaluation scripts
+  comparing trained agents against GRASP-optimised baselines. They assume a
+  sibling `../gym-superscript` checkout (the layout produced by a recursive
+  clone of superscript-abm) and locally-available trained models under
+  `logs/ppo/…` (not committed).
+- `additional_requirements.txt`: extra deps used by the project workflow
+  (sb3-contrib, optuna, wandb, confuse, pathos, …).
+
+**Requirements not declared here:** `gym_superscript` (and transitively
+`superscript_abm`) must be pip-installed in the same environment —
+`rl_zoo3/import_envs.py` imports it unconditionally. The pinned environment
+used for the article is `article_requirements.txt` in
+OptimizationExperiments (Python 3.10, stable-baselines3 2.3.2,
+gymnasium 0.29.1).
+
+**License:** upstream RL Baselines3 Zoo is MIT-licensed
+([LICENSE](LICENSE), Copyright (c) 2019 Antonin Raffin) — preserved
+unchanged. The SuperScript-fork modifications are additionally released
+under the GNU Affero General Public License v3.0
+([LICENSE.AGPL-3.0](LICENSE.AGPL-3.0)),
+Copyright (C) 2025 Michael Christen <michael.christen@mobi.ch>.
+
+The `rl-trained-agents` submodule pinned in `.gitmodules` is upstream's
+collection of pretrained agents (DLR-RM); it is **not needed** for the
+SuperScript workflow and can be skipped when initialising submodules.
+
+---
+
 <!-- [![pipeline status](https://gitlab.com/araffin/rl-baselines3-zoo/badges/master/pipeline.svg)](https://gitlab.com/araffin/rl-baselines3-zoo/-/commits/master) -->
 ![CI](https://github.com/DLR-RM/rl-baselines3-zoo/workflows/CI/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/rl-baselines3-zoo/badge/?version=master)](https://rl-baselines3-zoo.readthedocs.io/en/master/?badge=master)
