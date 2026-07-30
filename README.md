@@ -1,3 +1,42 @@
+<!-- SUPERSCRIPT BRANDING -->
+<!-- Badges + logo in the style of Superscriptus/SuperScript (othneildrew Best-README-Template). -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![Fork license: AGPL-3.0][license-agpl-shield]][license-agpl-url]
+[![Upstream license: MIT][license-mit-shield]][license-mit-url]
+
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/Superscriptus/SuperScript">
+    <img src="documentation/images/logo.svg" alt="SuperScript logo" width="390" height="80">
+  </a>
+
+  <h3 align="center">SuperScript RL training fork</h3>
+
+  <p align="center">
+    Fork of RL Baselines3 Zoo used to train and evaluate the SuperScript RLD1 / RLD2 policies.
+  </p>
+</p>
+
+---
+
+<!-- MARKDOWN LINKS & IMAGES (SuperScript branding; reference-style) -->
+[contributors-shield]: https://img.shields.io/github/contributors/Superscriptus/rl-baselines3-zoo.svg?style=for-the-badge
+[contributors-url]: https://github.com/Superscriptus/rl-baselines3-zoo/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Superscriptus/rl-baselines3-zoo.svg?style=for-the-badge
+[forks-url]: https://github.com/Superscriptus/rl-baselines3-zoo/network/members
+[stars-shield]: https://img.shields.io/github/stars/Superscriptus/rl-baselines3-zoo.svg?style=for-the-badge
+[stars-url]: https://github.com/Superscriptus/rl-baselines3-zoo/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Superscriptus/rl-baselines3-zoo.svg?style=for-the-badge
+[issues-url]: https://github.com/Superscriptus/rl-baselines3-zoo/issues
+[license-agpl-shield]: https://img.shields.io/badge/Fork%20as%20a%20whole-AGPL--3.0-blue.svg?style=for-the-badge
+[license-agpl-url]: LICENSE.AGPL-3.0
+[license-mit-shield]: https://img.shields.io/badge/Upstream%20portions-MIT-yellow.svg?style=for-the-badge
+[license-mit-url]: LICENSE
+
 # SuperScript fork of RL Baselines3 Zoo
 
 > **This is a fork** of [DLR-RM/rl-baselines3-zoo](https://github.com/DLR-RM/rl-baselines3-zoo)
@@ -37,12 +76,16 @@ used for the article is `article_requirements.txt` in
 OptimizationExperiments (Python 3.10, stable-baselines3 2.3.2,
 gymnasium 0.29.1).
 
-**License:** upstream RL Baselines3 Zoo is MIT-licensed
-([LICENSE](LICENSE), Copyright (c) 2019 Antonin Raffin) — preserved
-unchanged. The SuperScript-fork modifications are additionally released
-under the GNU Affero General Public License v3.0
-([LICENSE.AGPL-3.0](LICENSE.AGPL-3.0)),
-Copyright (C) 2025 Michael Christen <michael.christen@mobi.ch>.
+**License:** this fork **as a whole** is distributed under the GNU Affero
+General Public License v3.0 ([LICENSE.AGPL-3.0](LICENSE.AGPL-3.0)). Portions
+derived from [rl-baselines3-zoo](https://github.com/DLR-RM/rl-baselines3-zoo)
+are Copyright (c) 2019 Antonin Raffin and licensed under the MIT License
+([LICENSE](LICENSE), preserved unchanged from upstream); modifications and
+additions are Copyright (C) 2025 Michael Christen
+&lt;michael.christen@mobi.ch&gt; and licensed under AGPL-3.0. MIT is
+compatible with the (A)GPL, permitting this combined licensing. Licensing
+will be revisited before journal publication / API deployment — see
+[Superscriptus/OptimizationExperiments#94](https://github.com/Superscriptus/OptimizationExperiments/issues/94).
 
 The `rl-trained-agents` submodule pinned in `.gitmodules` is upstream's
 collection of pretrained agents (DLR-RM); it is **not needed** for the

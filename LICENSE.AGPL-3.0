@@ -1,3 +1,28 @@
+        NOTICE — SuperScript fork of RL Baselines3 Zoo
+        ==============================================
+
+This fork as a whole is distributed under the GNU Affero General Public
+License v3.0 (AGPL-3.0), whose full text follows below.
+
+Portions derived from RL Baselines3 Zoo
+(https://github.com/DLR-RM/rl-baselines3-zoo) are
+Copyright (c) 2019 Antonin Raffin and licensed under the MIT License
+(see the LICENSE file, preserved unchanged from upstream).
+Modifications and additions are
+Copyright (C) 2025 Michael Christen <michael.christen@mobi.ch>
+and licensed under AGPL-3.0.
+
+The MIT License is compatible with the (A)GPL, permitting this combined
+licensing: the MIT-licensed portions retain their original license and
+copyright notice, while the combined work as a whole is distributed
+under AGPL-3.0.
+
+Licensing of this project will be revisited before journal publication /
+API deployment; see Superscriptus/OptimizationExperiments issue #94
+(https://github.com/Superscriptus/OptimizationExperiments/issues/94).
+
+        ==============================================
+
                     GNU AFFERO GENERAL PUBLIC LICENSE
                        Version 3, 19 November 2007
 
